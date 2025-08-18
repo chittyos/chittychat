@@ -108,7 +108,7 @@ class SmartRecommendationsService {
     };
 
     // Generate recommendations based on user history and ChittyID data
-    const ethRecommendation = await ethRegistryClient.generateSmartRecommendations(
+    const registryRecommendation = await registryClient.generateSmartRecommendations(
       'user',
       userId,
       context
@@ -116,7 +116,7 @@ class SmartRecommendationsService {
 
     // Enhance with ChittyID-based recommendations
     const enhancedRecommendations = await this.enhanceWithChittyIdRecommendations(
-      ethRecommendation.recommendations,
+      registryRecommendation.recommendations,
       chittyIdData
     );
 
@@ -241,12 +241,12 @@ class SmartRecommendationsService {
     relevanceScore?: number;
     alignmentFactors?: string[];
   }>> {
-    return await ethRegistryClient.searchRegistry(query, filters);
+    return await registryClient.searchRegistry(query, filters);
   }
 
   async syncEthRegistryData(): Promise<void> {
     try {
-      const registryData = await ethRegistryClient.getAgentRegistry();
+      const registryData = await registryClient.getAgentRegistry();
       
       // Update local ETH registry cache
       for (const entry of registryData) {
