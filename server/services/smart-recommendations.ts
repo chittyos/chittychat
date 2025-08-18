@@ -1,5 +1,5 @@
 import { storage } from "../storage";
-import { ethRegistryClient } from "./eth-registry-client";
+import { registryClient } from "./registry-client";
 import { chittyidClient } from "./chittyid-client";
 import type { SmartRecommendation, Project, Agent, User } from "@shared/schema";
 import { nanoid } from 'nanoid';
@@ -25,8 +25,8 @@ class SmartRecommendationsService {
       category: project.category || '',
     };
 
-    // Get ETH registry recommendations
-    const ethRecommendation = await ethRegistryClient.generateSmartRecommendations(
+    // Get The Registry recommendations
+    const registryRecommendation = await registryClient.generateSmartRecommendations(
       'project',
       projectId,
       context
