@@ -32,12 +32,12 @@ export const projects = pgTable("projects", {
   status: text("status").notNull().default("active"), // active, completed, archived, paused
   isGlobal: boolean("is_global").notNull().default(true),
   ownerId: varchar("owner_id").references(() => users.id),
-  workspaceId: varchar("workspace_id").references(() => workspaces.id),
+  // workspaceId: varchar("workspace_id").references(() => workspaces.id),
   progress: integer("progress").notNull().default(0), // 0-100
   category: text("category"),
   tags: json("tags").$type<string[]>().default([]),
   metadata: json("metadata").$type<Record<string, any>>().default({}),
-  lifecycleStage: text("lifecycle_stage").default("planning"), // planning, development, testing, review, maintenance
+  // lifecycleStage: text("lifecycle_stage").default("planning"), // planning, development, testing, review, maintenance
   archivalScheduledAt: timestamp("archival_scheduled_at"),
   archivedAt: timestamp("archived_at"),
   lastActivityAt: timestamp("last_activity_at").defaultNow(),
@@ -252,10 +252,10 @@ export const projectsRelations = relations(projects, ({ one, many }) => ({
     fields: [projects.ownerId],
     references: [users.id],
   }),
-  workspace: one(workspaces, {
-    fields: [projects.workspaceId],
-    references: [workspaces.id],
-  }),
+  // workspace: one(workspaces, {
+  //   fields: [projects.workspaceId],
+  //   references: [workspaces.id],
+  // }),
   tasks: many(tasks),
   activities: many(activities),
   collaborationHeatmap: many(collaborationHeatmap),
