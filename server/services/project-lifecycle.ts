@@ -196,7 +196,7 @@ export class ProjectLifecycleService {
     const projectTasks = await db
       .select()
       .from(tasks)
-      .where(eq(tasks.projectId, projectId));
+      .where(eq(tasks.projectId, projectId)) as Task[];
 
     const now = new Date();
     const overdueTasks = projectTasks.filter(t => 

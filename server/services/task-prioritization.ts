@@ -1,6 +1,6 @@
 import { db } from '../db';
 import { tasks, projects, agents, activities } from '../../shared/schema';
-import { eq, and, or, gte, lte, desc, asc, sql } from 'drizzle-orm';
+import { eq, and, or, gte, lte, desc, asc, sql, inArray } from 'drizzle-orm';
 import type { Task, Project } from '../../shared/schema';
 
 interface PriorityFactors {
@@ -186,7 +186,7 @@ export class TaskPrioritizationService {
       const depTasks = await db
         .select()
         .from(tasks)
-        .where(sql`${tasks.id} = ANY(${dependencies})`);
+        .where(inArray(tasks.id, dependencies));
       
       const completedDeps = depTasks.filter(t => t.status === 'completed').length;
       dependencyFactor = completedDeps / dependencies.length;
@@ -411,7 +411,7 @@ export class TaskPrioritizationService {
     const depTasks = await db
       .select()
       .from(tasks)
-      .where(sql`${tasks.id} = ANY(${dependencies})`);
+      .where(inArray(tasks.id, dependencies));
 
     return depTasks.every(t => 
       t.status === 'completed' || 
